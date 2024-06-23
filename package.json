@@ -1,0 +1,42 @@
+{
+  "name": "pimetry-nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --fix -w ./app/**/*.{tsx,css}",
+    "generate": "drizzle-kit --config=./database/drizzle.config.ts generate",
+    "migrate": "drizzle-kit --config=./database/drizzle.config.ts migrate",
+    "dc:generate": "docker-compose --env-file=.env exec pimetry_nextjs sh -c 'npm run generate'",
+    "dc:migrate": "docker-compose --env-file=.env exec pimetry_nextjs sh -c 'npm run migrate'"
+  },
+  "dependencies": {
+    "@auth/drizzle-adapter": "^1.4.1",
+    "@auth/pg-adapter": "^1.3.0",
+    "drizzle-orm": "^0.31.2",
+    "next": "14.2.4",
+    "next-auth": "^5.0.0-beta.19",
+    "pg": "8.10.0",
+    "postgres": "3.3.5",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/pg": "^8.11.6",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "drizzle-kit": "^0.22.7",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.4",
+    "eslint-config-prettier": "^9.1.0",
+    "postcss": "^8",
+    "prettier": "^3.3.2",
+    "prettier-plugin-tailwindcss": "^0.6.4",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
