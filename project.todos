@@ -1,0 +1,9 @@
+General:
+    [ ] Page CRUD
+    [x] Use pnpm
+    [x] Migrations
+    [x] Signin/out
+    [ ] Transparent buttons
+
+Bugs:
+    [ ] Resize file nav

@@ -13,7 +13,9 @@ export async function User() {
           await signIn('github');
         }}
       >
-        <button className="bg-teal-600 text-gray-50 rounded p-2 border-2 border-teal-900 border-opacity-30">Sign In</button>
+        <button className="rounded border-2 border-teal-900 border-opacity-30 bg-teal-600 p-2 text-gray-50">
+          Sign In
+        </button>
       </form>
     );
   }
@@ -33,12 +35,13 @@ export async function User() {
           await signOut();
         }}
       >
-        <button className="bg-teal-600 text-gray-50 rounded p-2 border-2 border-teal-900 border-opacity-30">Sign Out</button>
+        <button className="rounded border-2 border-teal-900 border-opacity-30 bg-teal-600 p-2 text-gray-50">
+          Sign Out
+        </button>
       </form>
     </div>
   );
 }
-
 
 // 'use client';
 
@@ -54,7 +57,7 @@ export async function User() {
 //   alt={`${session.user.name} avatar`}
 // />
 
-  // const session = await getSession();
+// const session = await getSession();
 
 // console.log('nextAuth', nextAuth);
 // const {getSession, signIn, signOut} = nextAuth;
@@ -63,7 +66,7 @@ export async function User() {
 //   const { data: session, update } = useSession()
 //   // const session = await getSession();
 //   // const user = session?.user;
-// 
+//
 //   if (!session?.user) {
 //     return (
 //       <button type="submit" onClick={() => update({ user: { name }})} className="bg-teal-600 text-gray-50 rounded p-2 border-2 border-teal-900 border-opacity-30">
@@ -71,11 +74,11 @@ export async function User() {
 //       </button>
 //     );
 //   }
-// 
+//
 //   return (
 //     <div className="flex items-center gap-4">
 //       <button onClick={() => signOut()} className="bg-teal-600 text-gray-50 rounded p-2 border-2 border-teal-900 border-opacity-30">
-//         Sign Out 
+//         Sign Out
 //       </button>
 //     </div>
 //   );
