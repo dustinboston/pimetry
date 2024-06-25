@@ -2,9 +2,8 @@ export type File = {
   id: string;
   userId: string;
   name: string;
-  date: string;
-  text: string;
-  // tags: string[];
+  date: Date;
+  text: string | null;
   type: string;
 };
 

@@ -1,54 +1,62 @@
 import { User } from '@/app/ui/user';
-import LinkList, { type LinkListItem } from '@/app/ui/link-list';
-import { DocumentPlusIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
-import { getFilesByUser } from '@/app/lib/db';
-import { auth } from '@/lib/auth';
+import FileList from '@/app/ui/files/file-list';
+import { PlusIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
+import { getFiles, insertDefaultFile } from '@/app/actions/file-actions';
+import { notFound, redirect, useParams } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
-export default async function Layout({
-  children,
-}: {
+type FileProps = {
   children: React.ReactNode;
-}) {
-  const session = await auth();
-  const userId = session?.user?.id;
-  const files = userId ? await getFilesByUser(userId) : [];
+};
 
-  const links = files.map((file) => {
-    return { href: `/files/${file.id}`, name: file.name, key: file.id };
-  });
+export default async function Layout({ children }: FileProps) {
+  const files = await getFiles();
+  if (!files) return notFound();
 
   return (
     <main className="grid h-full w-full grid-cols-12 grid-rows-1">
       <nav className="col-span-2 flex resize-x flex-col divide-y-2 divide-yellow-800 divide-opacity-20 border-r-2 border-yellow-800 border-opacity-20 bg-yellow-800 bg-opacity-20 text-yellow-950">
-        <menu aria-label="File actions" className="w-full flex-none px-2 py-4">
+        <menu
+          aria-label="File actions"
+          className="w-full flex-none px-2 pb-1 pt-2"
+        >
           <li>
-            <button
-              title="Add file"
-              className="rounded border-2 border-teal-900 border-opacity-30 bg-teal-600 p-2 text-gray-50"
+            <form
+              action={async () => {
+                'use server';
+                const inserted = await insertDefaultFile();
+                if (inserted?.length) {
+                  revalidatePath('/files');
+                  redirect(`/files/${inserted[0].insertedId}`);
+                }
+              }}
             >
-              <DocumentPlusIcon className="size-6 stroke-gray-50" />
-            </button>
+              <button
+                title="Add file"
+                className="inline-block rounded"
+                type="submit"
+              >
+                <PlusIcon className="size-8 rounded stroke-teal-700 py-1 text-gray-50 hover:border-opacity-30 hover:bg-teal-600 hover:stroke-teal-50" />
+              </button>
+            </form>
           </li>
         </menu>
         <menu
           aria-label="Files"
           className="w-full flex-grow overflow-y-auto bg-transparent"
         >
-          <LinkList links={links} />
+          <FileList files={files} />
         </menu>
         <menu
           aria-label="App actions"
-          className="flex w-full flex-none gap-2 px-2 py-4"
+          className="flex w-full flex-none gap-2 px-2 pb-2 pt-4 align-middle"
         >
           <li>
             <User />
           </li>
           <li>
-            <button
-              title="Settings"
-              className="rounded border-2 border-teal-900 border-opacity-30 bg-teal-600 p-2 text-gray-50"
-            >
-              <Cog6ToothIcon className="size-6 stroke-gray-50" />
+            <button title="Open settings" className="inline-block rounded">
+              <Cog6ToothIcon className="size-10 rounded stroke-teal-700 py-1 text-gray-50 hover:border-opacity-30 hover:bg-teal-600 hover:stroke-teal-50" />
             </button>
           </li>
         </menu>
